@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-prettier",
+    "stylelint-config-styled-components"
+  ],
+  "customSyntax": "@stylelint/postcss-css-in-js",
+  "ignoreFiles": ["**/*.d.ts", "**/*.tsx"],
+  "rules": {
+    "property-no-vendor-prefix": null,
+    "color-hex-length": "long"
+  }
+}
