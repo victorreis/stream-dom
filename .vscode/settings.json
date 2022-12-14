@@ -24,7 +24,7 @@
   "editor.guides.bracketPairs": "active",
   "editor.linkedEditing": true,
   "editor.renderWhitespace": "boundary",
-  "eslint.workingDirectories": ["src/**/*"],
+  "eslint.workingDirectories": ["packages/**/*"],
   "files.associations": {
     "*.json": "jsonc"
   },
@@ -76,7 +76,7 @@
     "**/dist": true
   },
   "search.useIgnoreFiles": true,
-  "tsimporter.filesToScan": ["src/**/*.ts", "src/**/*.tsx"],
+  "tsimporter.filesToScan": ["packages/**/*.ts", "packages/**/*.tsx"],
   "typescript.preferences.importModuleSpecifier": "relative",
   "typescript.tsdk": "node_modules/typescript/lib"
 }
