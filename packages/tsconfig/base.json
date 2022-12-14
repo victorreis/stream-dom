@@ -1,20 +1,122 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Default",
+  "compileOnSave": true,
+  "include": ["src/**/*"],
+  "exclude": [
+    "**/node_modules",
+    "**/.*",
+    "**/build",
+    "**/docs",
+    "**/lib",
+    "**/dist",
+    "**/reports",
+    "**/__mocks__"
+  ],
   "compilerOptions": {
+    /* Projects */
+    "incremental": true,
     "composite": false,
+    // "tsBuildInfoFile": "./",
+    // "disableSourceOfProjectReferenceRedirect": true,
+    // "disableSolutionSearching": true,
+    // "disableReferencedProjectLoad": true,
+    "disableSizeLimit": true,
+
+    /* Language and Environment */
+    "target": "es5",
+    // "lib": ["dom", "dom.iterable", "es5", "esnext"],
+    "lib": ["es5", "esnext"],
+    // "jsx": "react-jsx",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    // "jsxFactory": "",
+    // "jsxFragmentFactory": "",
+    // "jsxImportSource": "react-jsx",
+    // "reactNamespace": "",
+    // "noLib": true,
+    "useDefineForClassFields": true,
+
+    /* Modules */
+    // "module": "commonjs",
+    "module": "esnext",
+    // "rootDir": "./",
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    // "rootDirs": [],
+    "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
+    // "types": ["node", "jest", "react", "react-dom"],
+    "types": ["node", "jest"],
+    // "allowUmdGlobalAccess": true,
+    "resolveJsonModule": true,
+    // "noResolve": true,
+    "plugins": [
+      {
+        "transform": "typescript-plugin-styled-components",
+        "type": "config",
+        "minify": true
+      }
+    ],
+
+    /* JavaScript Support */
+    "allowJs": true,
+    // "checkJs": true,
+    // "maxNodeModuleJsDepth": 1,
+
+    /* Emit */
     "declaration": true,
     "declarationMap": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "inlineSources": false,
+    // "emitDeclarationOnly": true,
+    "sourceMap": true,
+    // "outFile": "./",
+    "outDir": "./build",
+    "removeComments": true,
+    "noEmit": true,
+    "importHelpers": true,
+    // "importsNotUsedAsValues": "remove",
+    "downlevelIteration": true,
+    // "sourceRoot": "",
+    // "mapRoot": "",
+    "inlineSources": true,
+    // "emitBOM": true,
+    "newLine": "lf",
+    // "stripInternal": true,
+    "noEmitHelpers": true,
+    "noEmitOnError": true,
+    // "preserveConstEnums": true,
+    // "declarationDir": "./",
+    // "preserveValueImports": true,
+
+    /* Interop Constraints */
     "isolatedModules": true,
-    "moduleResolution": "node",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "forceConsistentCasingInFileNames": true,
     "preserveWatchOutput": true,
-    "skipLibCheck": true,
-    "strict": true
-  },
-  "exclude": ["node_modules"]
+
+    /* Type Checking */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    // "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    // "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    // "allowUnusedLabels": true,
+    // "allowUnreachableCode": true,
+
+    /* Completeness */
+    "skipLibCheck": true
+  }
 }

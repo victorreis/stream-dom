@@ -3,9 +3,15 @@
   "display": "React",
   "extends": "./base.json",
   "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "es5", "esnext"],
     "jsx": "react-jsx",
-    "lib": ["ES2015"],
-    "module": "ESNext",
-    "target": "es6"
+    "types": ["node", "jest", "react", "react-dom"],
+    "plugins": [
+      {
+        "transform": "typescript-plugin-styled-components",
+        "type": "config",
+        "minify": true
+      }
+    ]
   }
 }

@@ -25,6 +25,9 @@
   "editor.linkedEditing": true,
   "editor.renderWhitespace": "boundary",
   "eslint.workingDirectories": ["src/**/*"],
+  "files.associations": {
+    "*.json": "jsonc"
+  },
   "files.autoSave": "off",
   "files.encoding": "utf8",
   "files.eol": "\n",
@@ -48,6 +51,12 @@
     "**/lib": true,
     "**/coverage": true,
     "**/dist": true
+  },
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": true,
+    "markdown": false
   },
   "html.format.enable": false,
   "javascript.format.enable": false,
