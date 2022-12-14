@@ -2,10 +2,24 @@
   "name": "stream-dom",
   "version": "0.0.0",
   "private": true,
+  "description": "React + Nest + SQLite project that implements a DOM stream from scratch. There is a client whose DOM will be watched, there is a backend to process and store the data and there is a admin to watch the DOM streams. The objective is to show some of my skills with React, Nest, SQLite, TypeScript, styled-components, best practices, code quality, SOLID, DRY, KISS, YAGNI and other principles.",
+  "author": "victorreis <v.crisostomo.reis@gmail.com>",
+  "keywords": [
+    "dom-stream",
+    "dom",
+    "stream",
+    "frontend",
+    "react",
+    "TypeScript",
+    "styled-components",
+    "nest",
+    "SQLite"
+  ],
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
+  "packageManager": "yarn@1.22.19",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
@@ -17,9 +31,8 @@
     "prettier": "latest",
     "turbo": "latest"
   },
+  "dependencies": {},
   "engines": {
     "node": ">=14.0.0"
-  },
-  "dependencies": {},
-  "packageManager": "yarn@1.22.19"
+  }
 }
