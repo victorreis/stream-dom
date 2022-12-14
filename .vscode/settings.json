@@ -1,0 +1,73 @@
+{
+  "[markdown]": {
+    "editor.defaultFormatter": null,
+    "editor.formatOnSave": false
+  },
+  "[css, scss, postcss]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": true
+    }
+  },
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.autoIndent": "full",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": false,
+  "editor.guides.bracketPairs": "active",
+  "editor.linkedEditing": true,
+  "editor.renderWhitespace": "boundary",
+  "eslint.workingDirectories": ["src/**/*"],
+  "files.autoSave": "off",
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true,
+    "**/CVS": true
+  },
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "files.watcherExclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/storybook-static": true,
+    "**/android": true,
+    "**/ios": true,
+    "**/lib": true,
+    "**/coverage": true,
+    "**/dist": true
+  },
+  "html.format.enable": false,
+  "javascript.format.enable": false,
+  "javascript.validate.enable": true,
+  "json.format.enable": false,
+  "material-icon-theme.activeIconPack": "nest",
+  "search.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/storybook-static": true,
+    "**/package-lock.json": true,
+    "**/yarn.lock": true,
+    "**/android": true,
+    "**/ios": true,
+    "**/lib": true,
+    "**/coverage": true,
+    "**/dist": true
+  },
+  "search.useIgnoreFiles": true,
+  "tsimporter.filesToScan": ["src/**/*.ts", "src/**/*.tsx"],
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
