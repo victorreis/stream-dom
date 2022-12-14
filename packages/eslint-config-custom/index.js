@@ -72,6 +72,7 @@ module.exports = {
   },
   extends: [
     'next',
+    'next/core-web-vitals',
     'turbo',
     'eslint:recommended',
     'airbnb',
