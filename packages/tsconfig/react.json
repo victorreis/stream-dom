@@ -5,7 +5,6 @@
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "es5", "esnext"],
     "jsx": "react-jsx",
-    "types": ["node", "jest", "react", "react-dom"],
     "plugins": [
       {
         "transform": "typescript-plugin-styled-components",
