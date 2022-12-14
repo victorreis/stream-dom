@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Default",
   "compileOnSave": true,
-  "include": ["src/**/*"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": [
     "**/node_modules",
     "**/.*",
@@ -50,13 +50,13 @@
     // "allowUmdGlobalAccess": true,
     "resolveJsonModule": true,
     // "noResolve": true,
-    "plugins": [
-      {
-        "transform": "typescript-plugin-styled-components",
-        "type": "config",
-        "minify": true
-      }
-    ],
+    // "plugins": [
+    //   {
+    //     "transform": "typescript-plugin-styled-components",
+    //     "type": "config",
+    //     "minify": true
+    //   }
+    // ],
 
     /* JavaScript Support */
     "allowJs": true,

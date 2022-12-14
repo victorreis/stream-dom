@@ -1,7 +1,6 @@
 {
   "extends": "@stream-dom/tsconfig/react.json",
-  "include": ["."],
-  "exclude": ["dist", "build", "node_modules"],
+  "include": ["src/**/*"],
   "compilerOptions": {
     "types": ["node", "jest", "react", "react-dom"]
   }
