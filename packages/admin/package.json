@@ -5,7 +5,7 @@
   "types": "./src/index.tsx",
   "license": "MIT",
   "scripts": {
-    "lint": "TIMING=1 eslint --quiet --fix . -c ../../.eslintrc.js",
+    "lint": "TIMING=1 eslint --quiet --fix . -c ../../packages/eslint-config-custom/index.js",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
