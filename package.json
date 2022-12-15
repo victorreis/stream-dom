@@ -74,6 +74,7 @@
     "stylelint-config-standard": "^29.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-prettier": "^2.0.0",
-    "turbo": "latest"
+    "turbo": "latest",
+    "typescript": "^4.9.4"
   }
 }
