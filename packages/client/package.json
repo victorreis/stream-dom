@@ -66,6 +66,7 @@
     "react-tetris": "^0.3.0",
     "rrweb": "^2.0.0-alpha.3",
     "rrweb-player": "^1.0.0-alpha.3",
+    "socket.io-client": "^4.5.4",
     "typescript": "^4.5.5",
     "uuid": "^8.3.2"
   },

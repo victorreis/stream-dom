@@ -2,8 +2,10 @@ import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Tetris from 'react-tetris';
 import * as rrweb from 'rrweb';
-import StreamDOM from './streamDOM';
 import { eventWithTime } from '@rrweb/types';
+import { io } from 'socket.io-client';
+
+import StreamDOM from './streamDOM';
 
 // randomly generate a user ID every time you join the room
 const SESSION_ID = uuidv4();
@@ -11,38 +13,40 @@ const SESSION_ID = uuidv4();
 function App() {
   let events: eventWithTime[] = [];
 
+  const socket = io('http://localhost:3000');
+  socket.on('connect', () => {
+    console.log('Connected');
+  });
+  socket.on('send_dom', (data) => {
+    console.log('send_dom', data);
+  });
+  socket.on('disconnect', () => {
+    console.log('Disconnected');
+  });
+
   const stopFn = rrweb.record({
     emit(event: eventWithTime) {
       events.push(event);
-      console.log(event);
-      if (events.length > 100) {
-        // stop after 100 events
-        if (stopFn) {
-          stopFn();
-        }
-      }
     },
   });
 
-  function save() {
-    const body = JSON.stringify({ events });
-    events = [];
-    fetch('http://YOUR_BACKEND_API', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body,
-    });
-  }
+  const save = () => {
+    socket.emit('send_dom', events);
+  };
 
   // initializes streamDOM on component load
   useEffect(() => {
     StreamDOM.init({ sessionId: SESSION_ID });
 
-    const interval = setInterval(save, 10 * 1000);
+    const interval = setInterval(save, 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+      if (stopFn) {
+        stopFn();
+      }
+      socket.emit('Disconnected');
+      clearInterval(interval);
+    };
   }, []);
 
   return (
