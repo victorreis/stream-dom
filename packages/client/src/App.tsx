@@ -13,30 +13,29 @@ const SESSION_ID = uuidv4();
 function App() {
   let events: eventWithTime[] = [];
 
-  const socket = io('http://localhost:3000');
-  socket.on('connect', () => {
-    console.log('Connected');
-  });
-  socket.on('send_dom', (data) => {
-    console.log('send_dom', data);
-  });
-  socket.on('disconnect', () => {
-    console.log('Disconnected');
-  });
-
-  const stopFn = rrweb.record({
-    emit(event: eventWithTime) {
-      events.push(event);
-    },
-  });
-
-  const save = () => {
-    socket.emit('send_dom', events);
-  };
-
   // initializes streamDOM on component load
   useEffect(() => {
+    const stopFn = rrweb.record({
+      emit(event: eventWithTime) {
+        events.push(event);
+      },
+    });
+
+    const socket = io('http://localhost:3000');
+    socket.on('connect', () => {
+      console.log('Connected');
+    });
+    socket.on('send_dom', (data) => {
+      console.log('send_dom', data);
+    });
+    socket.on('disconnect', () => {
+      console.log('Disconnected');
+    });
     StreamDOM.init({ sessionId: SESSION_ID });
+
+    const save = () => {
+      socket.emit('send_dom', events);
+    };
 
     const interval = setInterval(save, 1000);
 
@@ -44,7 +43,10 @@ function App() {
       if (stopFn) {
         stopFn();
       }
-      socket.emit('Disconnected');
+      socket.emit('disconnect');
+      socket.off('connect');
+      socket.off('send_dom');
+      socket.off('disconnect');
       clearInterval(interval);
     };
   }, []);
