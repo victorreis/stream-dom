@@ -26,10 +26,11 @@ module.exports = {
   ignorePatterns: [
     '**/node_modules',
     '**/.*',
-    '**/build',
     '**/docs',
     '**/lib',
     '**/dist',
+    '**/build',
+    '**/.next',
     '**/reports',
     '**/__mocks__',
   ],

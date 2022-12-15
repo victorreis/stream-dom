@@ -50,7 +50,9 @@
     "**/ios": true,
     "**/lib": true,
     "**/coverage": true,
-    "**/dist": true
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true
   },
   "github.copilot.enable": {
     "*": true,
@@ -73,7 +75,9 @@
     "**/ios": true,
     "**/lib": true,
     "**/coverage": true,
-    "**/dist": true
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true
   },
   "search.useIgnoreFiles": true,
   "tsimporter.filesToScan": ["packages/**/*.ts", "packages/**/*.tsx"],
