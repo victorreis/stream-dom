@@ -71,7 +71,6 @@ module.exports = {
     },
   },
   extends: [
-    'next',
     'turbo',
     'eslint:recommended',
     'airbnb',
