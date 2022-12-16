@@ -34,7 +34,7 @@ function App() {
     StreamDOM.init({ sessionId: SESSION_ID });
 
     const save = () => {
-      socket.emit('send_dom', events);
+      socket.emit('send_dom', { sessionId: SESSION_ID, events });
     };
 
     const interval = setInterval(save, 1000);
