@@ -1,13 +1,15 @@
 import { CACHE_MANAGER, Inject } from '@nestjs/common';
 import {
+  ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Cache } from 'cache-manager';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
 interface DataMessageBody {
   sessionId: string;
@@ -24,59 +26,61 @@ interface SessionsCache {
     origin: '*',
   },
 })
-export class DomStreamGateway implements OnGatewayDisconnect {
+export class DomStreamGateway
+  implements OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server!: Server;
 
-  sessionId!: string;
-
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
+  getSessionIdFromSocket(socket: Socket): string {
+    return socket.handshake.headers['sessionid'] as string;
+  }
+
+  handleConnection(socket: Socket) {
+    const sessionId = this.getSessionIdFromSocket(socket);
+    console.log(`'${sessionId}' is connected.`);
+  }
+
   @SubscribeMessage('send_dom')
-  async sendDom(@MessageBody() data: DataMessageBody) {
-    // console.log('send_dom', data.sessionId);
-    this.sessionId = data.sessionId;
+  async sendDom(
+    @MessageBody() data: DataMessageBody,
+    @ConnectedSocket() socket: Socket
+  ) {
+    const sessionId = this.getSessionIdFromSocket(socket);
+    console.log(
+      `[${new Date()
+        .toString()
+        .substring(16, 24)}] EVENT: send_dom -> ${sessionId}`
+    );
     const { activeSessionIds, sessions }: SessionsCache =
       (await this.cacheManager.get('sessions')) || {
         activeSessionIds: {},
         sessions: {},
       };
 
-    if (
-      !Object.keys(activeSessionIds).find(
-        (session) => session === data.sessionId
-      )
-    ) {
-      console.log(`'${this.sessionId}' is connected.`);
-    }
-
     await this.cacheManager.set('sessions', {
       activeSessionIds: { ...activeSessionIds, [data.sessionId]: true },
       sessions: {
         ...sessions,
-        [data.sessionId]: [
-          ...((sessions[data.sessionId] as unknown[]) || []),
-          data.events[0],
-        ],
+        [data.sessionId]: data.events,
       },
     });
-    // console.log(await this.cacheManager.get('sessions'));
-    return data;
   }
 
-  async handleDisconnect() {
-    console.log(`'${this.sessionId}' was disconnected.`);
+  async handleDisconnect(@ConnectedSocket() socket: Socket) {
+    const sessionId = this.getSessionIdFromSocket(socket);
+    console.log(`'${sessionId}' was disconnected.`);
     const sessionsState: SessionsCache | undefined =
       await this.cacheManager.get('sessions');
+    const { activeSessionIds, sessions } = sessionsState || {};
 
-    if (sessionsState?.activeSessionIds) {
+    if (activeSessionIds) {
+      delete activeSessionIds[sessionId];
       this.cacheManager.set('sessions', {
-        activeSessionIds: [
-          ...Object.keys(sessionsState.activeSessionIds).filter(
-            (session) => session !== this.sessionId
-          ),
-        ],
-        sessions: sessionsState.sessions,
+        activeSessionIds,
+        sessions,
       });
     }
   }
