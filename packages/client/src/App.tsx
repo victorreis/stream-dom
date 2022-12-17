@@ -1,19 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Tetris from 'react-tetris';
 import * as rrweb from 'rrweb';
 import { eventWithTime } from '@rrweb/types';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
-import StreamDOM from './streamDOM';
-
-// randomly generate a user ID every time you join the room
-const SESSION_ID = uuidv4();
+const SEND_DOM_EVENT = 'send_dom';
+const API_URL = 'http://localhost:3000';
 
 function App() {
+  const [socket, setSocket] = useState<Socket>();
+  const [sessionId] = useState(uuidv4());
   let events: eventWithTime[] = [];
 
-  // initializes streamDOM on component load
+  useEffect(() => {
+    setSocket(() =>
+      io(API_URL, {
+        extraHeaders: {
+          sessionId,
+        },
+        closeOnBeforeunload: true,
+        reconnection: true,
+      })
+    );
+  }, []);
+
   useEffect(() => {
     const stopFn = rrweb.record({
       emit(event: eventWithTime) {
@@ -21,35 +32,23 @@ function App() {
       },
     });
 
-    const socket = io('http://localhost:3000');
-    socket.on('connect', () => {
-      console.log('Connected');
-    });
-    socket.on('send_dom', (data) => {
-      console.log('send_dom', data);
-    });
-    socket.on('disconnect', () => {
-      console.log('Disconnected');
-    });
-    StreamDOM.init({ sessionId: SESSION_ID });
-
     const save = () => {
-      socket.emit('send_dom', { sessionId: SESSION_ID, events });
+      if (socket) {
+        socket.emit(SEND_DOM_EVENT, { sessionId, events });
+      }
     };
-
     const interval = setInterval(save, 1000);
 
     return () => {
       if (stopFn) {
         stopFn();
       }
-      socket.emit('disconnect');
-      socket.off('connect');
-      socket.off('send_dom');
-      socket.off('disconnect');
+      if (socket) {
+        socket.off(SEND_DOM_EVENT);
+      }
       clearInterval(interval);
     };
-  }, []);
+  }, [socket]);
 
   return (
     <div className="main-app">
@@ -69,15 +68,7 @@ function App() {
           shift: 'HOLD',
         }}
       >
-        {({
-          HeldPiece,
-          Gameboard,
-          PieceQueue,
-          points,
-          linesCleared,
-          state,
-          controller,
-        }) => (
+        {({ Gameboard, points, linesCleared, state, controller }) => (
           <div
             style={{
               display: 'flex',
@@ -85,13 +76,11 @@ function App() {
               flexDirection: 'column',
             }}
           >
-            <HeldPiece />
             <div>
               <p>Points: {points}</p>
               <p>Lines Cleared: {linesCleared}</p>
             </div>
             <Gameboard />
-            <PieceQueue />
             {state === 'LOST' && (
               <div>
                 <h2>Game Over</h2>
