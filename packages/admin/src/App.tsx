@@ -24,6 +24,7 @@ const VIDEO_SPOT_ID = 'video-spot';
 function App() {
   const [activeSessions, setActiveSessions] = useState<string[]>([]);
   const [sessions, setSessions] = useState<Sessions>({});
+  const [selectedSessionId, setSelectedSessionId] = useState<string>();
 
   const theme = useTheme();
 
@@ -44,15 +45,17 @@ function App() {
       if (!videoSpot) {
         return;
       }
+      videoSpot.innerHTML = '';
+
+      setSelectedSessionId(sessionId);
 
       try {
         new rrwebPlayer({
           target: videoSpot,
           props: {
             events: sessionEvents,
-            autoPlay: false,
             width: 400,
-            height: 650,
+            height: 600,
           },
         });
       } catch (error) {
@@ -73,15 +76,24 @@ function App() {
           </Typography>
         );
       }
-      return sessionsToBeRendered.map((sessionId, index) => (
-        <Item
-          key={sessionId}
-          elevation={index + 1}
-          onClick={handleSelectItem(sessionId)}
-        >
-          {sessionId}
-        </Item>
-      ));
+
+      return sessionsToBeRendered.map((sessionId, index) => {
+        const backgroundColor =
+          selectedSessionId === sessionId
+            ? theme.palette.action.selected
+            : theme.palette.background.default;
+
+        return (
+          <Item
+            key={sessionId}
+            elevation={index + 1}
+            style={{ backgroundColor }}
+            onClick={handleSelectItem(sessionId)}
+          >
+            {sessionId}
+          </Item>
+        );
+      });
     };
 
     return (
@@ -121,10 +133,6 @@ function App() {
   return (
     <div style={{ display: 'flex' }}>
       <div
-        style={{ zIndex: 10, height: '100vh', width: '50vw' }}
-        id={VIDEO_SPOT_ID}
-      />
-      <div
         style={{
           flexDirection: 'column',
           height: '100vh',
@@ -133,6 +141,29 @@ function App() {
       >
         {renderSessions(activeSessions, 'Active Sessions')}
         {renderSessions(oldSessions, 'Old Sessions')}
+      </div>
+      <div>
+        <Typography
+          variant="h5"
+          align="center"
+          style={{
+            width: '50vw',
+            height: '3rem',
+            backgroundColor: theme.palette.background.default,
+          }}
+        >
+          {selectedSessionId}
+        </Typography>
+        <div
+          style={{
+            zIndex: 10,
+            display: 'flex',
+            justifyContent: 'center',
+            height: '100vh',
+            width: '50vw',
+          }}
+          id={VIDEO_SPOT_ID}
+        />
       </div>
     </div>
   );
