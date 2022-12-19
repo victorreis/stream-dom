@@ -10,16 +10,7 @@ import {
 } from '@nestjs/websockets';
 import { Cache } from 'cache-manager';
 import { Server, Socket } from 'socket.io';
-
-interface DataMessageBody {
-  sessionId: string;
-  events: Object[];
-}
-
-interface SessionsCache {
-  activeSessionIds: Record<string, boolean>;
-  sessions: Record<string, unknown>;
-}
+import { DataMessageBody, SessionsCache } from '../models/Session.types';
 
 @WebSocketGateway({
   cors: {

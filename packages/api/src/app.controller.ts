@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 
 import { AppService } from './app.service';
 
@@ -10,6 +10,17 @@ export class AppController {
 
   @Get()
   async getSessions() {
-    return await this.appService.getSessions();
+    return (await this.appService.getSessions()) || {};
+  }
+
+  @Get('/:sessionId/:lastEventIndex')
+  async getActiveSessionEvents(
+    @Param('sessionId') sessionId: string,
+    @Param('lastEventIndex') lastEventIndex: number
+  ) {
+    return await this.appService.getActiveSessionEvents(
+      sessionId,
+      lastEventIndex
+    );
   }
 }
