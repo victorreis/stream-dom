@@ -1,73 +1,46 @@
-# Turborepo starter
+# stream-dom
 
-This is an official Yarn v1 starter turborepo.
+## Summary
 
-## What's inside?
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Running](#running)
+- [Another scripts](#another-scripts)
 
-This turborepo uses [Yarn](https://classic.yarnpkg.com/) as a package manager. It includes the following packages/apps:
+## Introduction
 
-### Apps and Packages
+A simple and intuitive DOM streamer to watch a tetris game.
+The main objective of this project is to practice some development skills through some technologies and concepts:
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+- ReactJS
+- React Hooks
+- TypeScript
+- CSS-in-JS (emotion.js)
+- Nest.js
+- Turborepo
+- Caching
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Features
 
-### Utilities
+- [X] The product manager should be able to see the list of all current and recent (<1 day old) sessions (just showing session id’s is fine)
+- [X] The product manager should be able to watch any active session in real-time. Or rewind to a previous point in the active session
+- [X] The product manager should be able to replay any old session
+- [X] For realtime streaming active sessions, latency is important! We suggest websockets
 
-This turborepo has some additional tools already setup for you:
+## Installation
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+- Make sure that you have nodejs installed in you computer. Preference: node 18.2.0 (use NVM to easily achieve that).
+- Run `npm install`.
 
-### Build
+## Running
 
-To build all apps and packages, run the following command:
+- `npm run dev`
+- Open [http://localhost:5173](http://localhost:5173) and [http://localhost:5174](http://localhost:5174) to see the client and the admin pages.
 
-```
-cd my-turborepo
-yarn run build
-```
+## Another scripts
 
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-yarn run dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Pipelines](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+- Typescript type check: `yarn type-check`
+- Prettier formating: `yarn format`
+- Linting code: `yarn lint`
+- Build: `yarn build`
