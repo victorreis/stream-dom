@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 export const Item = MUIstyled(Paper)<{
   sessionId: string;
@@ -52,10 +53,21 @@ export const ItemsBox = MUIstyled(Box)(({ theme }) => ({
   display: 'grid',
   gap: 1,
   margin: theme.spacing(2),
-  marginTop: '3rem',
+  marginTop: '3.1rem',
 }));
 
 export const VideoSpotContainer = styled.div(() => ({
   display: 'flex',
   justifyContent: 'center',
+}));
+
+export const RefreshButton = MUIstyled(Button)(({ theme }) => ({
+  position: 'absolute',
+  bottom: 20,
+  left: 20,
+  border: `1px solid ${theme.palette.info.dark}`,
+  color: theme.palette.info.dark,
+  backgroundColor: theme.palette.background.default,
+  padding: theme.spacing(2),
+  borderRadius: theme.spacing(2),
 }));

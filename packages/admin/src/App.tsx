@@ -5,6 +5,7 @@ import { eventWithTime } from '@rrweb/types';
 import {
   Item,
   ItemsBox,
+  RefreshButton,
   RowContainer,
   SelectedSessionTitle,
   SessionContainer,
@@ -29,7 +30,7 @@ function App() {
   const isActiveSession =
     selectedSessionId && activeSessions.includes(selectedSessionId);
 
-  useEffect(() => {
+  const refreshSessions = useCallback(() => {
     fetch(`${API_URL}/sessions`)
       .then((response) => response.json())
       .then((response) => {
@@ -38,6 +39,10 @@ function App() {
       })
       .catch(() => console.error('Error on getting sessions.'));
   }, []);
+
+  useEffect(() => {
+    refreshSessions();
+  }, [refreshSessions]);
 
   const getNewEventsFromSelectedActiveSession = useCallback(() => {
     fetch(`${API_URL}/sessions/${selectedSessionId}/${player}`)
@@ -63,6 +68,10 @@ function App() {
       clearInterval(intervalId);
     };
   }, [selectedSessionId, getNewEventsFromSelectedActiveSession]);
+
+  const handleClickRefresh = () => {
+    refreshSessions();
+  };
 
   const handleSelectItem = (sessionId: string) => () => {
     const sessionEvents = sessions[sessionId];
@@ -130,6 +139,9 @@ function App() {
 
   return (
     <RowContainer>
+      <RefreshButton onClick={handleClickRefresh} style={{}}>
+        Refresh
+      </RefreshButton>
       <SessionsClassifyingListsContainer>
         {renderSessions(activeSessions, 'Active Sessions')}
         {renderSessions(oldSessions, 'Old Sessions')}
