@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -25,8 +25,12 @@ function App() {
   const [activeSessions, setActiveSessions] = useState<string[]>([]);
   const [sessions, setSessions] = useState<Sessions>({});
   const [selectedSessionId, setSelectedSessionId] = useState<string>();
+  const [player, setPlayer] = useState<rrwebPlayer>();
 
   const theme = useTheme();
+
+  const isActiveSession =
+    selectedSessionId && activeSessions.includes(selectedSessionId);
 
   useEffect(() => {
     fetch(`${API_URL}/sessions`)
@@ -37,6 +41,31 @@ function App() {
       })
       .catch(() => console.error('Error on getting sessions.'));
   }, []);
+
+  const getNewEventsFromSelectedActiveSession = useCallback(() => {
+    fetch(`${API_URL}/sessions/${selectedSessionId}/${player}`)
+      .then((response) => response.json())
+      .then((response) => {
+        (response as eventWithTime[]).forEach((event) =>
+          player?.addEvent(event)
+        );
+        return response;
+      })
+      .catch(() =>
+        console.error('Error on getting the new events from the active .')
+      );
+  }, [selectedSessionId, player]);
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timer;
+    if (isActiveSession) {
+      intervalId = setInterval(getNewEventsFromSelectedActiveSession, 2000);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [selectedSessionId]);
 
   const handleSelectItem = (sessionId: string) => () => {
     const sessionEvents = sessions[sessionId];
@@ -50,7 +79,7 @@ function App() {
       setSelectedSessionId(sessionId);
 
       try {
-        new rrwebPlayer({
+        const createdPlayer = new rrwebPlayer({
           target: videoSpot,
           props: {
             events: sessionEvents,
@@ -58,8 +87,9 @@ function App() {
             height: 600,
           },
         });
+        setPlayer(createdPlayer);
       } catch (error) {
-        console.log('ERROR: ', error);
+        console.error('ERROR: ', error);
       }
     }
   };
