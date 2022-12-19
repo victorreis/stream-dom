@@ -45,6 +45,7 @@ export class DomStreamGateway
         .toString()
         .substring(16, 24)}] EVENT: send_dom -> ${sessionId}`
     );
+
     const { activeSessionIds, sessions }: SessionsCache =
       (await this.cacheManager.get('sessions')) || {
         activeSessionIds: {},
@@ -63,6 +64,7 @@ export class DomStreamGateway
   async handleDisconnect(@ConnectedSocket() socket: Socket) {
     const sessionId = this.getSessionIdFromSocket(socket);
     console.log(`'${sessionId}' was disconnected.`);
+
     const sessionsState: SessionsCache | undefined =
       await this.cacheManager.get('sessions');
     const { activeSessionIds, sessions } = sessionsState || {};
